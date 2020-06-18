@@ -4,13 +4,16 @@ import { Provider } from "react-redux";
 import "react-native-gesture-handler";
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
+import { composeWithDevTools } from 'redux-devtools-extension';
 // import { NavigationContainer } from "@react-navigation/native";
 
 import productsReducer from "./store/reducers/products";
+import cartReducer from "./store/reducers/cart";
 import ShopNavigator from "./navigation/ShopNavigator";
 
 const rootReducer = combineReducers({
   products: productsReducer,
+  cart: cartReducer,
 });
 
 const fetchFonts = () => {
@@ -20,7 +23,7 @@ const fetchFonts = () => {
   })
 }
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, composeWithDevTools());
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
