@@ -1,21 +1,21 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList, Button } from "react-native";
-import CartItem from "../../models/cart-item";
 import { useSelector } from "react-redux";
-import Colors from '../../constants/Colors';
+import Colors from "../../constants/Colors";
+import CartItem from "../../component/shop/CartItem";
 
 const CartScreen = (props) => {
   const cartTotalAmount = useSelector((state) => state.cart.totalAmount); //cart is the key defined in combineReducer in App.js
   const cartItems = useSelector((state) => {
     const transformedCartItems = [];
-    for(const key in state.cart.items) {
+    for (const key in state.cart.items) {
       transformedCartItems.push({
         productId: key,
         productTitle: state.cart.items[key].productTitle,
         productPrice: state.cart.items[key].productPrice,
         quantity: state.cart.items[key].quantity,
-        totalAmount: state.cart.items[key].totalAmount
-      })
+        totalAmount: state.cart.items[key].totalAmount,
+      });
     }
     return transformedCartItems;
   }); //items is from the cart.js reducer
@@ -24,11 +24,27 @@ const CartScreen = (props) => {
     <View style={styles.screen}>
       <View style={styles.summary}>
         <Text style={styles.summaryText}>
-          Total: <Text style={styles.amount}>${cartTotalAmount.toFixed(2)}</Text>
+          Total:{" "}
+          <Text style={styles.amount}>${cartTotalAmount.toFixed(2)}</Text>
         </Text>
-        <Button color={Colors.accent} title="Order Now" disabled={cartItems.length === 0} />
+        <Button
+          color={Colors.accent}
+          title="Order Now"
+          disabled={cartItems.length === 0}
+        />
       </View>
-      <Text>CartItems</Text>
+      <FlatList
+        data={cartItems}
+        keyExtractor={(item) => item.productId}
+        renderItem={(itemData) => (
+          <CartItem
+            quantity={itemData.item.quantity}
+            title={itemData.item.productTitle}
+            amount={itemData.item.totalAmount}
+            onRemove={() => {}}
+          />
+        )}
+      />
     </View>
   );
 };
@@ -52,11 +68,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   summaryText: {
-      fontFamily: 'open-sans-bold',
-      fontSize: 18,
+    fontFamily: "open-sans-bold",
+    fontSize: 18,
   },
   amount: {
-      color: Colors.primary,
+    color: Colors.primary,
   },
 });
 
