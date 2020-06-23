@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, FlatList, Platform } from "react-native";
+import { Text, FlatList, Platform } from "react-native";
 import { useSelector } from "react-redux";
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../../component/UI/HeaderButton';
@@ -35,6 +35,5 @@ OrdersScreen.navigationOptions = (navData) => {
   };
 };
 
-const styles = StyleSheet.create({});
 
 export default OrdersScreen;
