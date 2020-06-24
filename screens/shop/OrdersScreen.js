@@ -1,39 +1,37 @@
-import React from "react";
-import { Text, FlatList, Platform } from "react-native";
-import { useSelector } from "react-redux";
+import React from 'react';
+import { FlatList, Text, Platform } from 'react-native';
+import { useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import HeaderButton from '../../component/UI/HeaderButton';
 
-const OrdersScreen = (props) => {
-  //both orders in useSelector refer to the one in App.js and order.js reducer repectively
-  const orders = useSelector((state) => state.orders.orders);
+import HeaderButton from '../../components/UI/HeaderButton';
+
+const OrdersScreen = props => {
+  const orders = useSelector(state => state.orders.orders);
 
   return (
     <FlatList
       data={orders}
-      keyExtractor={(item) => item.id}
-      renderItem={(itemData) => <Text>{itemData.item.totalAmount}</Text>}
+      keyExtractor={item => item.id}
+      renderItem={itemData => <Text>{itemData.item.totalAmount}</Text>}
     />
   );
 };
 
-OrdersScreen.navigationOptions = (navData) => {
+OrdersScreen.navigationOptions = navData => {
   return {
-    headerTitle: "Your Orders",
+    headerTitle: 'Your Orders',
     headerLeft: (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Menu"
-          iconSize={23}
-          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
-          onPress={() => {
-            navData.navigation.toggleDrawer();
-          }}
-        />
-      </HeaderButtons>
-    ),
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="Menu"
+            iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+            onPress={() => {
+              navData.navigation.toggleDrawer();
+            }}
+          />
+        </HeaderButtons>
+      ),
   };
 };
-
 
 export default OrdersScreen;

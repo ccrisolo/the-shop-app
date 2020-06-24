@@ -1,8 +1,8 @@
-import { ADD_ORDER } from "../actions/orders";
-import Order from "../../models/order";
+import { ADD_ORDER } from '../actions/orders';
+import Order from '../../models/order';
 
 const initialState = {
-  orders: [],
+  orders: []
 };
 
 export default (state = initialState, action) => {
@@ -11,13 +11,12 @@ export default (state = initialState, action) => {
       const newOrder = new Order(
         new Date().toString(),
         action.orderData.items,
-        action.orderData.totalAmount,
+        action.orderData.amount,
         new Date()
       );
-      //return a new state snapshot
       return {
-          ...state,
-          orders: state.orders.concat(newOrder)
+        ...state,
+        orders: state.orders.concat(newOrder)
       };
   }
 
