@@ -3,7 +3,7 @@ import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Colors from '../../constants/Colors';
-import CartItem from '../../components/shop/CartItem';
+import CartItem from '../../components/shop/CartItem'; 
 import * as cartActions from '../../store/actions/cart';
 import * as ordersActions from '../../store/actions/orders';
 
@@ -17,7 +17,7 @@ const CartScreen = props => {
         productTitle: state.cart.items[key].productTitle,
         productPrice: state.cart.items[key].productPrice,
         quantity: state.cart.items[key].quantity,
-        sum: state.cart.items[key].sum
+        totalAmount: state.cart.items[key].totalAmount
       });
     }
     return transformedCartItems.sort((a, b) =>
@@ -49,7 +49,7 @@ const CartScreen = props => {
           <CartItem
             quantity={itemData.item.quantity}
             title={itemData.item.productTitle}
-            amount={itemData.item.sum}
+            totalAmount={itemData.item.totalAmount}
             onRemove={() => {
               dispatch(cartActions.removeFromCart(itemData.item.productId));
             }}
