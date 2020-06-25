@@ -14,7 +14,7 @@ const UserProductsScreen = (props) => {
   const dispatch = useDispatch();
 
   const editProductHandler = (id) => {
-    props.navigation.navigate("EditProduct", { productId: id });
+    props.navigation.navigate("EditProduct", { productId: id });//{ productId: id } is our parameter, getParam grabs this info
   };
 
   return (
