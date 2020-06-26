@@ -4,7 +4,7 @@ import { Colors } from "react-native/Libraries/NewAppScreen";
 
 import CartItem from "./CartItem";
 // import Colors from '../../constants/Colors';
-
+ 
 const OrderItem = (props) => {
   const [showDetails, setShowDetails] = useState(false);
 
@@ -23,12 +23,12 @@ const OrderItem = (props) => {
       />
       {showDetails && (
         <View style={styles.detailItems}>
-          {props.item.map((cartItem) => (
+          {props.items.map((cartItem) => (
             <CartItem
               key={cartItem.productId}
               quantity={cartItem.quantity}
               title={cartItem.productTitle}
-              totalAmount={cartItem.totalAmount}
+              amount={cartItem.sum}
             />
           ))}
         </View>
