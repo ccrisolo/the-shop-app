@@ -47,7 +47,7 @@ const EditProductScreen = props => {
   }, [submitHandler]);
 
   return (
-    <ScrollView>
+    <ScrollView>  
       <View style={styles.form}>
         <View style={styles.formControl}>
           <Text style={styles.label}>Title</Text>
