@@ -9,29 +9,39 @@ export const SET_PRODUCTS = "SET_PRODUCTS";
 // below is how we GET the products from the server
 export const fetchProducts = () => {
   return async (dispatch) => {
-    //any async code can go here before the action is dispatched
-    //send http request using fetch API by entering url to your DB
-    const response = await fetch(
-      "https://the-shop-app-64312.firebaseio.com/products.json"
-    );
-
-    const resData = await response.json();
-    const loadedProducts = [];
-
-    for (const key in resData) {
-      loadedProducts.push(
-        new Product(
-          key,
-          "u1",
-          resData[key].title,
-          resData[key].imageUrl,
-          resData[key].description,
-          resData[key].price
-        )
+    //wrap code block in try catch block to catch errors
+    try {
+      //any async code can go here before the action is dispatched
+      //send http request using fetch API by entering url to your DB
+      const response = await fetch(
+        "https://the-shop-app-64312.firebaseio.com/products.json"
       );
-    }
 
-    dispatch({ type: SET_PRODUCTS, products: loadedProducts });
+      if (!response.ok) {
+        throw new Error('Something went wrong!')
+      }
+
+      const resData = await response.json();
+      const loadedProducts = [];
+
+      for (const key in resData) {
+        loadedProducts.push(
+          new Product(
+            key,
+            "u1",
+            resData[key].title,
+            resData[key].imageUrl,
+            resData[key].description,
+            resData[key].price
+          )
+        );
+      }
+
+      dispatch({ type: SET_PRODUCTS, products: loadedProducts });
+    } catch (err) {
+      //send to custom analytics server
+      throw err;
+    }
   };
 };
 
