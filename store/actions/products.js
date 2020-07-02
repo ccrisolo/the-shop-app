@@ -47,12 +47,16 @@ export const fetchProducts = () => {
 
 export const deleteProduct = (productId) => {
   return async (dispatch) => {
-    await fetch(
+    const response = await fetch(
       `https://the-shop-app-64312.firebaseio.com/products/${productId}.json`,
       {
         method: "DELETE",
       }
     );
+
+    if (!response.ok) {
+      throw new Error('Something went wrong!')
+    }
     dispatch({ type: DELETE_PRODUCT, pid: productId });
   };
 };
