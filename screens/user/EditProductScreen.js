@@ -7,6 +7,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   ActivityIndicator, //shows a loading spinner
+
 } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector, useDispatch } from "react-redux";
