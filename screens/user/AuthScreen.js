@@ -28,7 +28,9 @@ const formReducer = (state, action) => {
       ...state.inputValidities,
       [action.input]: action.isValid,
     };
-    let updatedFormIsValid = true;
+    let updatedFormIsValid = true; 
+
+
     for (const key in updatedValidities) {
       updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
     }
@@ -55,7 +57,7 @@ const AuthScreen = (props) => {
     },
     formIsValid: false,
   });
-
+ 
   const signupHandler = () => {
     dispatch(
       authActions.signup(
