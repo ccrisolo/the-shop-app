@@ -1,7 +1,12 @@
-import { ActionSheetIOS } from "react-native";
+import { AsyncStorage } from "react-native";
 
-export const SIGNUP = "SIGNUP";
-export const LOGIN = "LOGIN";
+// export const SIGNUP = "SIGNUP";
+// export const LOGIN = "LOGIN";
+export const AUTHENTICATE = 'AUTHENTICATE';
+
+export const authenticate = (userId, token) => {
+  return { type: AUTHENTICATE, userId: userId, token: token }
+}
 
 export const signup = (email, password) => {
   //use redux thunk and fetch api to make http request
@@ -35,7 +40,9 @@ export const signup = (email, password) => {
     //get response data using .json() to unpack the response body
     const resData = await response.json();
     console.log(resData);
-    dispatch({ type: SIGNUP, token: resData.idToken, userId: resData.localId });
+    dispatch(authenticate(resData.localId, resData.idToken));
+    const expirationDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
+    saveDataToStorage(resData.idToken, resData.localId, expirationDate);
   };
 };
 
@@ -72,6 +79,23 @@ export const login = (email, password) => {
 
     const resData = await response.json();
     console.log(resData);
-    dispatch({ type: LOGIN, token: resData.idToken, userId: resData.localId });
+    dispatch(authenticate(resData.localId, resData.idToken));
+    //create a timestamp with current time  + expiration time in milliseconds and pass to saveDataToStorage
+    const expirationDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000);
+    saveDataToStorage(resData.idToken, resData.localId, expirationDate);
   };
+};
+
+//call saveDataToStorage() after login or signup
+const saveDataToStorage = (token, userId, expirationDate) => {
+  //use AsyncStorage.setItem to save token tp device hard drive
+  //we'll set the key as userData for 1st arg
+  AsyncStorage.setItem(
+    "userData",
+    JSON.stringify({
+      token: token,
+      userId: userId,
+      expiryDate: expirationDate.toISOString() //toISOString on date objects will convert string to standardized format
+    })
+  );
 };
