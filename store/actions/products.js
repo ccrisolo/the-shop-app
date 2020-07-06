@@ -8,7 +8,8 @@ export const SET_PRODUCTS = "SET_PRODUCTS";
 
 // below is how we GET the products from the server
 export const fetchProducts = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     //wrap code block in try catch block to catch errors
     try {
       //any async code can go here before the action is dispatched
@@ -37,7 +38,11 @@ export const fetchProducts = () => {
         );
       }
 
-      dispatch({ type: SET_PRODUCTS, products: loadedProducts });
+      dispatch({
+        type: SET_PRODUCTS,
+        products: loadedProducts,
+        userProducts: loadedProducts.filter((prod) => prod.ownerId === userId),
+      });
     } catch (err) {
       //send to custom analytics server
       throw err;
@@ -56,7 +61,7 @@ export const deleteProduct = (productId) => {
     );
 
     if (!response.ok) {
-      throw new Error('Something went wrong!')
+      throw new Error("Something went wrong!");
     }
     dispatch({ type: DELETE_PRODUCT, pid: productId });
   };
@@ -66,6 +71,7 @@ export const createProduct = (title, description, imageUrl, price) => {
   //redux thunk dispatch syntax below to allow async code to run
   return async (dispatch, getState) => {
     const token = getState().auth.token;
+    const userId = getState().auth.userId; //using const userId in the  response body below maps products to logged in user
     //any async code can go here before the action is dispatched
     //send http request using fetch API by entering url to your DB
     //2nd arguement will me an object stating the method(i.e. GET, PUT, POST), headers and body contents
@@ -81,6 +87,7 @@ export const createProduct = (title, description, imageUrl, price) => {
           description,
           price,
           imageUrl,
+          ownerId: userId,
         }),
       }
     );
@@ -99,6 +106,7 @@ export const createProduct = (title, description, imageUrl, price) => {
         description,
         imageUrl,
         price,
+        ownerId: userId,
       },
     });
   };
@@ -123,8 +131,8 @@ export const updateProduct = (id, title, description, imageUrl) => {
       }
     );
 
-    if(!response.ok) {
-      throw new Error('Something went wrong!');
+    if (!response.ok) {
+      throw new Error("Something went wrong!");
     }
 
     dispatch({

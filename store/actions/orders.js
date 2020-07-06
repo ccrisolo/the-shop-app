@@ -4,12 +4,13 @@ export const ADD_ORDER = "ADD_ORDER";
 export const SET_ORDERS = "SET_ORDERS";
 
 export const fetchOrders = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     try {
       //any async code can go here before the action is dispatched
       //send http request using fetch API by entering url to your DB
       const response = await fetch(
-        "https://the-shop-app-64312.firebaseio.com/orders/u1.json"
+        `https://the-shop-app-64312.firebaseio.com/orders/${userId}.json`
       );
 
       if (!response.ok) {
@@ -41,8 +42,9 @@ export const addOrder = (cartItems, totalAmount) => {
   const date = new Date();
   return async (dispatch, getState) => {
     const token = getState().auth.token;
+    const userId = getState().auth.userId; //gives us userId of currently logged in user
     const response = await fetch(
-      `https://the-shop-app-64312.firebaseio.com/orders/u1.json?auth=${token}`,
+      `https://the-shop-app-64312.firebaseio.com/orders/${userId}.json?auth=${token}`,
       {
         method: "POST",
         headers: {
