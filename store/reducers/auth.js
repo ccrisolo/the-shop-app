@@ -1,4 +1,4 @@
-import { LOGIN } from "../actions/auth";
+import { LOGIN, LOGOUT } from "../actions/auth";
 import { SIGNUP } from "../actions/auth";
 import { AUTHENTICATE } from "../actions/auth";
 //set initial state for token
@@ -10,12 +10,14 @@ const initialState = {
 //set logic to store the token
 export default (state = initialState, action) => {
   switch (action.type) {
-      //combined LOGIN and SIGNUP into AUTHENTICATE
+    //combined LOGIN and SIGNUP into AUTHENTICATE
     case AUTHENTICATE:
       return {
         token: action.token,
         userId: action.userId,
       };
+    case LOGOUT:
+      return initialState;
     // case SIGNUP:
     //   return {
     //     token: action.token,
