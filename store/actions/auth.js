@@ -1,3 +1,5 @@
+import { ActionSheetIOS } from "react-native";
+
 export const SIGNUP = "SIGNUP";
 export const LOGIN = "LOGIN";
 
@@ -33,7 +35,7 @@ export const signup = (email, password) => {
     //get response data using .json() to unpack the response body
     const resData = await response.json();
     console.log(resData);
-    dispatch({ type: SIGNUP });
+    dispatch({ type: SIGNUP, token: resData.idToken, userId: resData.localId });
   };
 };
 
@@ -70,6 +72,6 @@ export const login = (email, password) => {
 
     const resData = await response.json();
     console.log(resData);
-    dispatch({ type: LOGIN });
+    dispatch({ type: LOGIN, token: resData.idToken, userId: resData.localId });
   };
 };

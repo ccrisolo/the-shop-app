@@ -46,9 +46,10 @@ export const fetchProducts = () => {
 };
 
 export const deleteProduct = (productId) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     const response = await fetch(
-      `https://the-shop-app-64312.firebaseio.com/products/${productId}.json`,
+      `https://the-shop-app-64312.firebaseio.com/products/${productId}.json?auth=${token}`,
       {
         method: "DELETE",
       }
@@ -63,12 +64,13 @@ export const deleteProduct = (productId) => {
 
 export const createProduct = (title, description, imageUrl, price) => {
   //redux thunk dispatch syntax below to allow async code to run
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     //any async code can go here before the action is dispatched
     //send http request using fetch API by entering url to your DB
     //2nd arguement will me an object stating the method(i.e. GET, PUT, POST), headers and body contents
     const response = await fetch(
-      "https://the-shop-app-64312.firebaseio.com/products.json",
+      `https://the-shop-app-64312.firebaseio.com/products.json?auth=${token}`,
       {
         method: "POST",
         headers: {
@@ -103,9 +105,11 @@ export const createProduct = (title, description, imageUrl, price) => {
 };
 
 export const updateProduct = (id, title, description, imageUrl) => {
-  return async (dispatch) => {
+  //adding getState as 2nd arg after dispatch gets us acceess to the current state in redux store
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     const response = await fetch(
-      `https://the-shop-app-64312.firebaseio.com/products/${id}.json`,
+      `https://the-shop-app-64312.firebaseio.com/products/${id}.json?auth=${token}`, //using ${token} appends token to fetch call validating the user so they can edit a product
       {
         method: "PATCH",
         headers: {
