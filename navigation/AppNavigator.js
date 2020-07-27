@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 //create new components using createStackNavigator
 import { createStackNavigator } from "@react-navigation/stack";
-import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
+import { ProductsNavigator } from "./ShopNavigator";
 
 //version 5 creatStackNavigator is a function that does not need an object like RN4
 //MyStack is now a stack component that you wrap in NavigationContainer that was
@@ -19,17 +19,7 @@ const AppNavigator = (props) => {
   //this is ReactNavigation v5 style of setting up navigation
   return (
     <NavigationContainer>
-      {/* MyStack get a Navigator prop */}
-      <MyStack.Navigator>
-        {/* in here you place the different 
-      screens you want as part of the stack 
-      using .Screen prop + name prop to indicate the screen
-      and component prop to point to the actual component*/}
-        <MyStack.Screen
-          name="ProductsOverview"
-          component={ProductsOverviewScreen}
-        />
-      </MyStack.Navigator>
+      <ProductsNavigator />
     </NavigationContainer>
   );
 };
