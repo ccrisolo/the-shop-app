@@ -70,7 +70,7 @@ const AuthScreen = (props) => {
   }, [
     error
   ]);
-
+ 
   const authHandler = async () => {
     let action;
     if (isSignup) {

@@ -41,7 +41,7 @@ const ProductsNavigator = createStackNavigator(
     Cart: CartScreen,
   },
   {
-    navigationOptions: {
+    navigationOptions: { 
       drawerIcon: (drawerConfig) => (
         <Ionicons
           name={Platform.OS === "android" ? "md-cart" : "ios-cart"}
