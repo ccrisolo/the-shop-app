@@ -1,6 +1,9 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createDrawerNavigator, DrawerItemList } from "@react-navigation/drawer";
+import {
+  createDrawerNavigator,
+  DrawerItemList,
+} from "@react-navigation/drawer";
 import { Platform, SafeAreaView, Button, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
@@ -23,7 +26,9 @@ import UserProductsScreen, {
 import EditProductScreen, {
   screenOptions as editProductScreenOptions,
 } from "../screens/user/EditProductScreen";
-import AuthScreen from "../screens/user/AuthScreen";
+import AuthScreen, {
+  screenOptions as authScreenOptions,
+} from "../screens/user/AuthScreen";
 import StartupScreen from "../screens/StartupScreen";
 import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/auth";
@@ -163,9 +168,6 @@ export const AdminNavigator = () => {
 //   }
 // );
 
-
-
-
 //CREATING DRAWERS in React Nav V5
 //React Nav V5 drawer navigator syntax
 const ShopDrawerNavigator = createDrawerNavigator();
@@ -273,6 +275,22 @@ export const ShopNavigator = () => {
 //   }
 // );
 
+//react nav v5 syntax, the const below is our new component
+const AuthStackNavigator = createStackNavigator();
+
+export const AuthNavigator = () => {
+  return (
+    <AuthStackNavigator.Navigator screenOptions={defaultNavOptions}>
+      <AuthStackNavigator.Screen
+        name="Auth"
+        component={AuthScreen}
+        options={authScreenOptions}
+      />
+    </AuthStackNavigator.Navigator>
+  );
+};
+
+//react nav v4 syntax below
 // const AuthNavigator = createStackNavigator(
 //   {
 //     Auth: AuthScreen,
