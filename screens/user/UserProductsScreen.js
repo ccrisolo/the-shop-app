@@ -21,7 +21,7 @@ const UserProductsScreen = props => {
       { text: 'No', style: 'default' },
       {
         text: 'Yes',
-        style: 'destructive',
+        style: 'destructive', 
         onPress: () => {
           dispatch(productsActions.deleteProduct(id));
         }
